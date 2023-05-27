@@ -4,7 +4,6 @@ use gtk::glib::bitflags::bitflags;
 use gtk::subclass::prelude::*;
 use gtk::{glib, gsk};
 use gtk::{graphene, prelude::*};
-// use gtk::{graphene, gsk};
 
 const MIN_WIDTH: f32 = 70.0;
 
@@ -78,7 +77,10 @@ impl ChildWrapper {
 
 mod imp {
     use super::*;
-    use std::cell::{Cell, RefCell};
+    use std::{
+        cell::{Cell, RefCell},
+        collections::BTreeMap,
+    };
 
     #[derive(Default, glib::Properties)]
     #[properties(wrapper_type = super::GroupedLayout)]
@@ -87,6 +89,8 @@ mod imp {
         pub(super) spacing: Cell<i32>,
 
         pub(super) last_measurements: RefCell<Option<Vec<ChildWrapper>>>,
+
+        pub(super) widths: RefCell<BTreeMap<i32, i32>>,
     }
 
     #[glib::object_subclass]
@@ -117,19 +121,32 @@ mod imp {
             orientation: gtk::Orientation,
             for_size: i32,
         ) -> (i32, i32, i32, i32) {
-            let size = if orientation == gtk::Orientation::Vertical {
-                let res = self.measure_for_max_size(widget, for_size, 400);
-                res.1
-            } else {
-                if let Some(children) = &*self.last_measurements.borrow() {
-                    let lf = children.last().unwrap().layout_frame.get();
-                    (lf.0 + lf.2) as i32
+            if widget.observe_children().n_items() <= 1 {
+                return if let Some(child) = widget.first_child() {
+                    child.measure(orientation, for_size)
                 } else {
-                    1
-                }
+                    (0, 0, -1, -1)
+                };
+            }
+
+            let (min, size) = if orientation == gtk::Orientation::Vertical {
+                let (width, height) = self.measure_height(widget, for_size);
+                self.widths.borrow_mut().insert(height, width);
+
+                (height, height)
+            } else {
+                let size = if for_size == -1 {
+                    270
+                } else {
+                    *self.widths.borrow_mut().get(&for_size).unwrap_or_else(|| {
+                        println!("miss: {for_size}");
+                        &1
+                    })
+                };
+                (64, size)
             };
 
-            (size, size, -1, -1)
+            (min, size, -1, -1)
         }
 
         fn request_mode(&self, _widget: &gtk::Widget) -> gtk::SizeRequestMode {
@@ -137,12 +154,6 @@ mod imp {
         }
 
         fn allocate(&self, widget: &gtk::Widget, width: i32, height: i32, baseline: i32) {
-            // let children: Vec<_> = widget
-            //     .observe_children()
-            //     .iter::<glib::Object>()
-            //     .filter_map(ChildWrapper::from_result)
-            //     .collect();
-
             if widget.observe_children().n_items() <= 1 {
                 if let Some(child) = widget.first_child() {
                     child.allocate(width, height, baseline, None);
@@ -150,75 +161,16 @@ mod imp {
                 return;
             }
 
-            dbg!(self.measure_for_max_size(widget, width, 400));
-
-            // let aspect_ratios = children.iter().map(|child| child.aspect_ratio);
-
-            // let proportions: String = aspect_ratios
-            //     .clone()
-            //     .map(|ar| {
-            //         if ar > 1.2 {
-            //             "w"
-            //         } else if ar < 0.8 {
-            //             "n"
-            //         } else {
-            //             "q"
-            //         }
-            //     })
-            //     .collect();
-
-            // let average_aspect_ratio = aspect_ratios.clone().sum::<f32>() / children.len() as f32;
-
-            // let force_calc = aspect_ratios.clone().any(|ar| ar > 2.0);
-
-            // let spacing = self.spacing.get() as f32;
-
-            // dbg!((force_calc, children.len()));
-
-            // let layout_function = if force_calc {
-            //     layout_fallback
-            // } else {
-            //     match children.len() {
-            //         2 => layout_two_children,
-            //         3 => layout_three_children,
-            //         4 => layout_four_children,
-            //         _ => layout_fallback,
-            //     }
-            // };
-
-            // let width = width as f32;
-            // let height = height as f32;
-
-            // layout_function(
-            //     &children,
-            //     &proportions,
-            //     average_aspect_ratio,
-            //     width,
-            //     height,
-            //     spacing,
-            // );
-
-            // let lf = children.last().unwrap().layout_frame.get();
-
-            // dbg!(width - (lf.0 + lf.2));
-            // dbg!(height - (lf.1 + lf.3));
+            dbg!(self.measure_height(widget, width).1 == height);
 
             if let Some(children) = &*self.last_measurements.borrow() {
-                // dbg!(children.last().unwrap().layout_frame.get());
                 children.iter().for_each(|child| child.allocate());
             }
-
-            // children.into_iter().for_each(|child| child.allocate());
         }
     }
 
     impl GroupedLayout {
-        fn measure_for_max_size(
-            &self,
-            widget: &gtk::Widget,
-            width: i32,
-            height: i32,
-        ) -> (i32, i32) {
+        fn measure_height(&self, widget: &gtk::Widget, width: i32) -> (i32, i32) {
             let children: Vec<_> = widget
                 .observe_children()
                 .iter::<glib::Object>()
@@ -256,8 +208,6 @@ mod imp {
 
             let spacing = self.spacing.get() as f32;
 
-            // dbg!((force_calc, children.len()));
-
             let layout_function = if force_calc {
                 layout_fallback
             } else {
@@ -270,14 +220,12 @@ mod imp {
             };
 
             let width = width as f32;
-            let height = height as f32;
 
             layout_function(
                 &children,
                 &proportions,
                 average_aspect_ratio,
                 width,
-                height,
                 spacing,
             );
 
@@ -303,23 +251,20 @@ fn layout_two_children(
     proportions: &str,
     average_aspect_ratio: f32,
     width: f32,
-    height: f32,
     spacing: f32,
 ) {
     let [first, second]: &[_; 2] = children.try_into().unwrap();
-
-    let aspect_ratio = width / height;
 
     let ar1 = first.aspect_ratio;
     let ar2 = second.aspect_ratio;
 
     let (lf1, pf1, lf2, pf2);
     if proportions == "ww"
-        && average_aspect_ratio > 1.4 * aspect_ratio
+        && average_aspect_ratio > 1.4
         && first.aspect_ratio - second.aspect_ratio < 0.2
     {
         let width = width;
-        let height = (width / ar1).min(width / ar2).min((height - spacing) / 2.0);
+        let height = (width / ar1).min(width / ar2);
 
         lf1 = (0.0, 0.0, width, height);
         pf1 = PositionFlags::TOP | PositionFlags::FULL_WIDTH;
@@ -328,9 +273,7 @@ fn layout_two_children(
         pf2 = PositionFlags::BOTTOM | PositionFlags::FULL_WIDTH;
     } else if matches!(proportions, "ww" | "qq") {
         let width = (width - spacing) * 0.5;
-        let height = (width / first.aspect_ratio)
-            .min(width / second.aspect_ratio)
-            .min(height);
+        let height = (width / first.aspect_ratio).min(width / second.aspect_ratio);
 
         lf1 = (0.0, 0.0, width, height);
         pf1 = PositionFlags::LEFT | PositionFlags::FULL_HEIGHT;
@@ -342,9 +285,7 @@ fn layout_two_children(
             / (1.0 / first.aspect_ratio + 1.0 / second.aspect_ratio);
         let second_width = width - first_width - spacing;
 
-        let height = height
-            .min(first_width / first.aspect_ratio)
-            .min(second_width / second.aspect_ratio);
+        let height = (first_width / first.aspect_ratio).min(second_width / second.aspect_ratio);
 
         lf1 = (0.0, 0.0, first_width, height);
         pf1 = PositionFlags::LEFT | PositionFlags::FULL_HEIGHT;
@@ -361,9 +302,8 @@ fn layout_two_children(
 fn layout_three_children(
     children: &[ChildWrapper],
     proportions: &str,
-    _average_aspect_ratio: f32,
+    average_aspect_ratio: f32,
     width: f32,
-    height: f32,
     spacing: f32,
 ) {
     let [first, second, third]: &[_; 3] = children.try_into().unwrap();
@@ -371,6 +311,8 @@ fn layout_three_children(
     let f_ar = first.aspect_ratio;
     let s_ar = second.aspect_ratio;
     let t_ar = third.aspect_ratio;
+
+    let height = width / average_aspect_ratio;
 
     let (f_lf, f_pf, s_lf, s_pf, t_lf, t_pf);
     if proportions.starts_with('n') {
@@ -437,9 +379,8 @@ fn layout_three_children(
 fn layout_four_children(
     children: &[ChildWrapper],
     proportions: &str,
-    _average_aspect_ratio: f32,
+    average_aspect_ratio: f32,
     width: f32,
-    height: f32,
     spacing: f32,
 ) {
     let [first, second, third, last]: &[_; 4] = children.try_into().unwrap();
@@ -453,7 +394,7 @@ fn layout_four_children(
     if proportions.starts_with('w') {
         let w = width;
 
-        let h0 = (w / f_ar).min((height - spacing) * 0.66);
+        let h0 = w / f_ar;
 
         f_lf = (0.0, 0.0, w, h0);
         f_pf = PositionFlags::TOP | PositionFlags::FULL_WIDTH;
@@ -469,8 +410,6 @@ fn layout_four_children(
             (w1, w2)
         };
 
-        let h = h.min(height - h0 - spacing);
-
         s_lf = (0.0, h0 + spacing, w0, h);
         s_pf = PositionFlags::BOTTOM_LEFT;
 
@@ -480,6 +419,8 @@ fn layout_four_children(
         l_lf = (w0 + w1 + 2.0 * spacing, h0 + spacing, w2, h);
         l_pf = PositionFlags::BOTTOM_RIGHT;
     } else {
+        let height = width / average_aspect_ratio;
+
         let h: f32 = height;
         let w0: f32 = f32::min(h * f_ar, (width - spacing) * 0.6);
         f_lf = (0.0, 0.0, w0, h);
@@ -516,7 +457,6 @@ fn layout_fallback(
     _proportions: &str,
     average_aspect_ratio: f32,
     width: f32,
-    height: f32,
     spacing: f32,
 ) {
     struct GroupedLayoutAttempt {
@@ -622,7 +562,7 @@ fn layout_fallback(
         }
     }
 
-    let max_height = height / 3.0 * 4.0;
+    let max_height = 400.0;
     let mut optimal = None;
     let mut optimal_diff = f32::MAX;
 

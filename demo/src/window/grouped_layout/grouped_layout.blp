@@ -4,136 +4,466 @@ using Adw 1;
 template $OriDemoGroupedLayoutPage: Adw.Bin {
     child: Adw.StatusPage {
 
-        Box {
-            halign: center;
-            spacing: 16;
-
-
         Adw.Clamp {
-            maximum-size: 400;
+            maximum-size: 600;
 
-            child: $OriGroup {
-                Adw.Bin {
-                    styles ["card"]
+            child: Box {
+                orientation: horizontal;
+                hexpand: true;
+                spacing: 16;
 
-                    width-request: 6;
-                    height-request: 7;
+
+                Box {
+                    orientation: vertical;
+                    hexpand: true;
+                    spacing: 16;
+
+                    $OriGroup {
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 5;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 7;
+                        }
+                    }
+
+                    $OriGroup {
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 7;
+                        }
+
+    
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 8;
+                        }
+                    }
+
+                    $OriGroup {
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 7;
+                            height-request: 2;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 3;
+                        }
+                    }
+
+                    $OriGroup {
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 7;
+                            height-request: 10;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 7;
+                            height-request: 9;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 7;
+                        }
+                    }
+
+                    $OriGroup {
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 7;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 8;
+                            height-request: 10;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 8;
+                        }
+                    }
+
+                    $OriGroup {
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 7;
+                            height-request: 10;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 7;
+                            height-request: 9;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 7;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 8;
+                            height-request: 10;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 8;
+                        }
+                    }
+
+
+                    $OriGroup {
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 7;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 7;
+                            height-request: 9;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 8;
+                            height-request: 10;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 8;
+                        }
+                    }
+
+                    $OriGroup {
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 5;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 7;
+                            height-request: 10;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 8;
+                        }
+                    }
+
+                    $OriGroup {
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 5;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 7;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 7;
+                            height-request: 10;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 7;
+                            height-request: 9;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 7;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 8;
+                            height-request: 10;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 8;
+                        }
+                    }
+
+
                 }
 
-                Adw.Bin {
-                    styles ["card"]
+                Box {
+                    orientation: vertical;
+                    hexpand: true;
+                    spacing: 16;
 
-                    width-request: 8;
-                    height-request: 10;
-                }
+                    $OriGroup {
+                        Adw.Bin {
+                            styles ["card"]
 
-                Adw.Bin {
-                    styles ["card"]
+                            width-request: 6;
+                            height-request: 5;
+                        }
 
-                    width-request: 6;
-                    height-request: 8;
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 3;
+                            height-request: 7;
+                        }
+                    }
+
+                    $OriGroup {
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 5;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 8;
+                        }
+                    }
+
+                    $OriGroup {
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 7;
+                            height-request: 9;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 7;
+                        }
+                    }
+
+                    $OriGroup {
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 3;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 8;
+                            height-request: 10;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 8;
+                        }
+                    }
+
+                    $OriGroup {
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 7;
+                            height-request: 9;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 7;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 8;
+                            height-request: 5;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 8;
+                        }
+                    }
+
+
+                    $OriGroup {
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 7;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 7;
+                            height-request: 9;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 8;
+                            height-request: 10;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 3;
+                            height-request: 8;
+                        }
+                    }
+
+                    $OriGroup {
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 7;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 7;
+                            height-request: 8;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 8;
+                        }
+                    }
+
+                    $OriGroup {
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 5;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 7;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 7;
+                            height-request: 10;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 7;
+                            height-request: 9;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 8;
+                            height-request: 10;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
+                            height-request: 8;
+                        }
+                    }
                 }
             };
         }
-
-        Adw.Clamp {
-            maximum-size: 400;
-
-            child: $OriGroup {
-                Adw.Bin {
-                    styles ["card"]
-
-                    width-request: 7;
-                    height-request: 10;
-                }
-
-                Adw.Bin {
-                    styles ["card"]
-
-                    width-request: 7;
-                    height-request: 9;
-                }
-
-                Adw.Bin {
-                    styles ["card"]
-
-                    width-request: 6;
-                    height-request: 7;
-                }
-
-                Adw.Bin {
-                    styles ["card"]
-
-                    width-request: 8;
-                    height-request: 10;
-                }
-
-                Adw.Bin {
-                    styles ["card"]
-
-                    width-request: 6;
-                    height-request: 8;
-                }
-            };  
-        }
-
-        Adw.Clamp {
-            maximum-size: 400;
-
-            child: $OriGroup {
-                Adw.Bin {
-                    styles ["card"]
-
-                    width-request: 6;
-                    height-request: 5;
-                }
-
-                Adw.Bin {
-                    styles ["card"]
-
-                    width-request: 6;
-                    height-request: 7;
-                }
-
-                Adw.Bin {
-                    styles ["card"]
-
-                    width-request: 7;
-                    height-request: 10;
-                }
-
-                Adw.Bin {
-                    styles ["card"]
-
-                    width-request: 7;
-                    height-request: 9;
-                }
-
-                Adw.Bin {
-                    styles ["card"]
-
-                    width-request: 6;
-                    height-request: 7;
-                }
-
-                Adw.Bin {
-                    styles ["card"]
-
-                    width-request: 8;
-                    height-request: 10;
-                }
-
-                Adw.Bin {
-                    styles ["card"]
-
-                    width-request: 6;
-                    height-request: 8;
-                }
-            };  
-        }
-
-        }
-
     };
-
 }
