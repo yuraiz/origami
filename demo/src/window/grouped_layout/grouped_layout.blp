@@ -1,0 +1,139 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $OriDemoGroupedLayoutPage: Adw.Bin {
+    child: Adw.StatusPage {
+
+        Box {
+            halign: center;
+            spacing: 16;
+
+
+        Adw.Clamp {
+            maximum-size: 400;
+
+            child: $OriGroup {
+                Adw.Bin {
+                    styles ["card"]
+
+                    width-request: 6;
+                    height-request: 7;
+                }
+
+                Adw.Bin {
+                    styles ["card"]
+
+                    width-request: 8;
+                    height-request: 10;
+                }
+
+                Adw.Bin {
+                    styles ["card"]
+
+                    width-request: 6;
+                    height-request: 8;
+                }
+            };
+        }
+
+        Adw.Clamp {
+            maximum-size: 400;
+
+            child: $OriGroup {
+                Adw.Bin {
+                    styles ["card"]
+
+                    width-request: 7;
+                    height-request: 10;
+                }
+
+                Adw.Bin {
+                    styles ["card"]
+
+                    width-request: 7;
+                    height-request: 9;
+                }
+
+                Adw.Bin {
+                    styles ["card"]
+
+                    width-request: 6;
+                    height-request: 7;
+                }
+
+                Adw.Bin {
+                    styles ["card"]
+
+                    width-request: 8;
+                    height-request: 10;
+                }
+
+                Adw.Bin {
+                    styles ["card"]
+
+                    width-request: 6;
+                    height-request: 8;
+                }
+            };  
+        }
+
+        Adw.Clamp {
+            maximum-size: 400;
+
+            child: $OriGroup {
+                Adw.Bin {
+                    styles ["card"]
+
+                    width-request: 6;
+                    height-request: 5;
+                }
+
+                Adw.Bin {
+                    styles ["card"]
+
+                    width-request: 6;
+                    height-request: 7;
+                }
+
+                Adw.Bin {
+                    styles ["card"]
+
+                    width-request: 7;
+                    height-request: 10;
+                }
+
+                Adw.Bin {
+                    styles ["card"]
+
+                    width-request: 7;
+                    height-request: 9;
+                }
+
+                Adw.Bin {
+                    styles ["card"]
+
+                    width-request: 6;
+                    height-request: 7;
+                }
+
+                Adw.Bin {
+                    styles ["card"]
+
+                    width-request: 8;
+                    height-request: 10;
+                }
+
+                Adw.Bin {
+                    styles ["card"]
+
+                    width-request: 6;
+                    height-request: 8;
+                }
+            };  
+        }
+
+        }
+
+    };
+
+}

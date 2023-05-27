@@ -1,3 +1,4 @@
+mod grouped_layout;
 mod loading_indicator;
 mod shimmer_effect;
 mod spoiler;
@@ -27,6 +28,7 @@ mod imp {
             loading_indicator::LoadingIndicatorPage::static_type();
             shimmer_effect::ShimmerEffectPage::static_type();
             spoiler::SpoilerPage::static_type();
+            grouped_layout::GroupedLayoutPage::static_type();
 
             klass.bind_template();
         }
