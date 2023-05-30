@@ -99,7 +99,7 @@ mod imp {
                 return;
             }
 
-            dbg!(self.measure_height(widget, width).1 == height);
+            self.measure_height(widget, width);
 
             if let Some(children) = &*self.last_measurements.borrow() {
                 children.iter().for_each(|child| child.allocate());

@@ -205,11 +205,13 @@ fn layout_four_children(
         f_pf = PositionFlags::LEFT | PositionFlags::FULL_HEIGHT;
 
         let w: f32 = (height - 2.0 * spacing) / (1.0 / s_ar + 1.0 / t_ar + 1.0 / l_ar);
+
         let h0: f32 = w / s_ar;
         let h1: f32 = w / t_ar;
         let h2: f32 = w / l_ar;
 
-        let w = w.min(width - w0 - spacing);
+        let w = width - w0 - spacing;
+
         s_lf = (w0 + spacing, 0.0, w, h0);
         s_pf = PositionFlags::TOP_RIGHT;
 
