@@ -1,13 +1,15 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $OriDemoGroupedLayoutPage: Adw.Bin {
+template $OriDemoGroupPage: Adw.Bin {
     child: Adw.StatusPage {
 
-        Adw.Clamp {
+       child: Adw.Clamp {
             maximum-size: 600;
+            tightening-threshold: 1;
 
-            child: Box {
+            child: 
+            Box {
                 orientation: horizontal;
                 hexpand: true;
                 spacing: 16;
@@ -419,6 +421,9 @@ template $OriDemoGroupedLayoutPage: Adw.Bin {
                         }
                     }
 
+                Box {
+                    orientation: vertical;
+
                     $OriGroup {
                         Adw.Bin {
                             styles ["card"]
@@ -437,20 +442,6 @@ template $OriDemoGroupedLayoutPage: Adw.Bin {
                         Adw.Bin {
                             styles ["card"]
 
-                            width-request: 7;
-                            height-request: 10;
-                        }
-
-                        Adw.Bin {
-                            styles ["card"]
-
-                            width-request: 7;
-                            height-request: 9;
-                        }
-
-                        Adw.Bin {
-                            styles ["card"]
-
                             width-request: 8;
                             height-request: 10;
                         }
@@ -459,11 +450,31 @@ template $OriDemoGroupedLayoutPage: Adw.Bin {
                             styles ["card"]
 
                             width-request: 6;
+                            height-request: 7;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 8;
+                            height-request: 5;
+                        }
+
+                        Adw.Bin {
+                            styles ["card"]
+
+                            width-request: 6;
                             height-request: 8;
                         }
+
+                }
+
+
                     }
                 }
+
+
             };
-        }
+        };
     };
 }

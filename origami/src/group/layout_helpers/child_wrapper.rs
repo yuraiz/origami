@@ -4,12 +4,14 @@ use std::cell::Cell;
 use gtk::{glib, gsk};
 use gtk::{graphene, prelude::*};
 
-#[derive(Debug)]
-pub(super) struct ChildWrapper {
+use crate::traits::Lerp;
+
+#[derive(Debug, Clone)]
+pub(crate) struct ChildWrapper {
     widget: gtk::Widget,
-    pub(super) aspect_ratio: f32,
-    pub(super) layout_frame: Cell<(f32, f32, f32, f32)>,
-    pub(super) position_flags: Cell<PositionFlags>,
+    pub(crate) aspect_ratio: f32,
+    pub(crate) layout_frame: Cell<(f32, f32, f32, f32)>,
+    pub(crate) position_flags: Cell<PositionFlags>,
 }
 
 impl ChildWrapper {
@@ -41,5 +43,32 @@ impl ChildWrapper {
 
         self.widget
             .allocate(width as i32, height as i32, -1, Some(transform))
+    }
+}
+
+impl Lerp<f32> for &ChildWrapper {
+    type Output = ChildWrapper;
+
+    fn lerp(self, other: &ChildWrapper, t: f32) -> ChildWrapper {
+        let start_frame = self.layout_frame.get();
+        let end_frame = other.layout_frame.get();
+
+        let frame = start_frame.lerp(end_frame, t);
+
+        let res = if t < 0.5 { self.clone() } else { other.clone() };
+
+        res.layout_frame.set(frame);
+        res
+    }
+}
+
+impl Lerp<f32> for &[ChildWrapper] {
+    type Output = Vec<ChildWrapper>;
+
+    fn lerp(self, other: Self, t: f32) -> Self::Output {
+        self.iter()
+            .zip(other.iter())
+            .map(|(s, e)| s.lerp(e, t))
+            .collect()
     }
 }

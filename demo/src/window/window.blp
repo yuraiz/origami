@@ -11,7 +11,9 @@ template $SpoilerWindow : Adw.ApplicationWindow {
         hexpand: true;
         vexpand: true;
 
-        Box {
+        visible-child: sidebar;
+
+        Box sidebar {
             orientation: vertical;
             vexpand: true;
 
@@ -25,6 +27,12 @@ template $SpoilerWindow : Adw.ApplicationWindow {
             }
 
             StackSidebar {
+                GestureClick {
+                    button: 1;
+                    
+                    released => $open_content(template);
+                }
+
                 vexpand: true;
                 width-request: 270;
 
@@ -36,11 +44,18 @@ template $SpoilerWindow : Adw.ApplicationWindow {
             orientation: vertical;
         }
 
-        Box {
+        Box content {
             orientation: vertical;
             vexpand: true;
 
             Adw.HeaderBar {
+                [start]
+                Button {
+                    icon-name: "go-previous-symbolic";
+                    visible: bind leaflet.folded;
+                    clicked => $open_sidebar(template);
+                }
+
                 [title]
                 Adw.Bin {}
 
@@ -83,10 +98,17 @@ template $SpoilerWindow : Adw.ApplicationWindow {
                 }
 
                 StackPage {
-                    name: "grouped_layout";
-                    title: "Grouped Layout";
+                    name: "group";
+                    title: "Group";
 
-                    child: $OriDemoGroupedLayoutPage {};
+                    child: $OriDemoGroupPage {};
+                }
+
+                StackPage {
+                    name: "animated_group";
+                    title: "Animated Group";
+
+                    child: $OriDemoAnimatedGroupPage {};
                 }
             }
         }

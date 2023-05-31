@@ -1,0 +1,66 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $OriDemoAnimatedGroupPage: Adw.Bin {
+    child: Adw.StatusPage {
+        DropTarget drop_target {
+            actions: copy;
+            formats: "GdkFileList";
+        }
+        
+        title: "Animated Group";
+        description: "Resize window to check how it works";
+
+        Box {
+            homogeneous: true;
+
+            Adw.Bin {}
+
+            $OriAnimatedGroup group {
+                Adw.Bin {
+                    styles ["card"]
+
+                    width-request: 6;
+                    height-request: 5;
+                }
+
+                Adw.Bin {
+                    styles ["card"]
+
+                    width-request: 6;
+                    height-request: 7;
+                }
+
+                Adw.Bin {
+                    styles ["card"]
+
+                    width-request: 8;
+                    height-request: 10;
+                }
+
+                Adw.Bin {
+                    styles ["card"]
+
+                    width-request: 6;
+                    height-request: 7;
+                }
+
+                Adw.Bin {
+                    styles ["card"]
+
+                    width-request: 8;
+                    height-request: 5;
+                }
+
+                Adw.Bin {
+                    styles ["card"]
+
+                    width-request: 6;
+                    height-request: 8;
+                }
+            }
+
+            Adw.Bin {}
+        }
+    };
+}

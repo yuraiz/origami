@@ -5,14 +5,14 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, gtk::CompositeTemplate)]
-    #[template(file = "src/window/grouped_layout/group.blp")]
-    pub struct Group;
+    #[template(file = "src/window/group/group.blp")]
+    pub struct GroupPage;
 
     #[glib::object_subclass]
-    impl ObjectSubclass for Group {
-        const NAME: &'static str = "OriGroup";
-        type Type = super::Group;
-        type ParentType = gtk::Widget;
+    impl ObjectSubclass for GroupPage {
+        const NAME: &'static str = "OriDemoGroupPage";
+        type Type = super::GroupPage;
+        type ParentType = adw::Bin;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -23,11 +23,12 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for Group {}
-    impl WidgetImpl for Group {}
+    impl ObjectImpl for GroupPage {}
+    impl WidgetImpl for GroupPage {}
+    impl BinImpl for GroupPage {}
 }
 
 glib::wrapper! {
-    pub struct Group(ObjectSubclass<imp::Group>)
+    pub struct GroupPage(ObjectSubclass<imp::GroupPage>)
         @extends gtk::Widget;
 }

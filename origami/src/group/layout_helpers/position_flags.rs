@@ -1,7 +1,7 @@
 use gtk::glib::bitflags::bitflags;
 
 bitflags! {
-    pub(super) struct PositionFlags: u32 {
+    pub(crate) struct PositionFlags: u32 {
         const NONE = 0;
         const INSIDE = 0b000010000;
 
