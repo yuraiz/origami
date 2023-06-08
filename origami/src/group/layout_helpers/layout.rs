@@ -378,7 +378,7 @@ fn layout_fallback(
         }
     }
 
-    let max_height = 300.0;
+    let max_height = 600.0;
     let mut optimal = None;
     let mut optimal_diff = f32::MAX;
 
